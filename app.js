@@ -4,7 +4,18 @@ const express = require('express');
 // TO GET THE EXPRESS HANDLEBARS
 const exphbs = require('express-handlebars');
 
+// TO GET THE MONGOOSE
+const mongoose = require('mongoose');
+
 const app = express();
+
+// CONNECT TO MONGOOSE
+mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
+})
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch(err => console.log(err));
 
 // Handle Bars MIDDLEWARE
 app.engine('handlebars',exphbs({defaultLayout:'main'}));
