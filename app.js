@@ -9,6 +9,9 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+// GET BODY-PARSER
+const bodyParser = require('body-parser');
+
 // CONNECT TO MONGOOSE
 mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
 })
@@ -24,6 +27,10 @@ mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
 // Handle Bars MIDDLEWARE
 app.engine('handlebars',exphbs({defaultLayout:'main'}));
 app.set('view engine','handlebars');
+
+// body-parser MIDDLEWARE
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json());
 
 
 const port = 5000;
@@ -45,4 +52,9 @@ app.get('/about',(req,res) => {
 // Add Idea Form
 app.get('/ideas/add',(req,res)=>{
   res.render('ideas/add');
+})
+
+// 
+app.post('/ideas',(req,res)=>{
+  res.send(req.body);
 })
