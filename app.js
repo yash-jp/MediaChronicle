@@ -17,6 +17,10 @@ mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
   })
   .catch(err => console.log(err));
 
+  // LOAD IDEA MODEL
+  require('./models/Idea');
+  const Idea = mongoose.model('ideas');
+
 // Handle Bars MIDDLEWARE
 app.engine('handlebars',exphbs({defaultLayout:'main'}));
 app.set('view engine','handlebars');
