@@ -54,7 +54,27 @@ app.get('/ideas/add',(req,res)=>{
   res.render('ideas/add');
 })
 
-// 
+// ideas route
+
+
 app.post('/ideas',(req,res)=>{
-  res.send(req.body);
+  let errors=[];
+
+  if(!req.body.title){
+    errors.push({text:'Please add title'});
+  }
+
+  if(!req.body.details){
+    errors.push({text:'Please enter details'});
+  }
+
+  if(errors.length>0){
+    res.render('ideas/add',{
+      errors:errors,
+      title:req.body.title,
+      details:req.body.details
+    });
+  }else{
+    res.send('passed');
+  }
 })
