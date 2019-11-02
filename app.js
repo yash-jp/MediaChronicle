@@ -54,9 +54,7 @@ app.get('/ideas/add',(req,res)=>{
   res.render('ideas/add');
 })
 
-// ideas route
-
-
+//post ideas route
 app.post('/ideas',(req,res)=>{
   let errors=[];
 
@@ -75,6 +73,25 @@ app.post('/ideas',(req,res)=>{
       details:req.body.details
     });
   }else{
-    res.send('passed');
+    const newUser={
+      title:req.body.title,
+      details:req.body.details
+    }
+    new Idea(newUser)
+      .save()
+      .then(idea=>{
+        res.redirect('/ideas');
+      })
   }
 })
+
+// GET ideas route
+app.get('/ideas',(req,res)=>{
+  // AS WE WANT ALL THE IDEAS, WE DO NOT NEED ANY SPECIFIC but we ned to sort by date
+  Idea.find({})
+    .sort({date:'desc'})
+    .then(ideas => {
+      console.log(ideas);
+      res.render('ideas/index',{ideas:ideas});
+    });
+});
