@@ -12,6 +12,9 @@ const app = express();
 // GET BODY-PARSER
 const bodyParser = require('body-parser');
 
+// GET THE method-override
+const methodOverride = require('method-override');
+
 // CONNECT TO MONGOOSE
 mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
 })
@@ -31,6 +34,9 @@ app.set('view engine','handlebars');
 // body-parser MIDDLEWARE
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json());
+
+// method-override MIDDLEWARE
+app.use(methodOverride('_method'));
 
 
 const port = 5000;
@@ -97,6 +103,25 @@ app.post('/ideas',(req,res)=>{
       })
   }
 })
+
+// EDIT (PUT) ideas route
+app.put('/ideas/:id',(req,res)=>{
+  // FIND THE SAME ONE WITH ID
+  Idea.findOne({
+    _id:req.params.id
+  })
+  .then(idea => {
+    // new values
+    idea.title=req.body.title,
+    idea.details=req.body.details
+
+    // this will save the data on that id
+    idea.save()
+      .then(idea => {
+        res.redirect('/ideas');
+      })
+  });
+});
 
 // GET ideas route
 app.get('/ideas',(req,res)=>{
