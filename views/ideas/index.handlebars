@@ -1,7 +1,9 @@
 {{#each ideas}}
-  <div class="card card-body mb-2">
+  <div class="card card-body mb-3">
     <h4>{{title}}</h4>
     <p>{{details}}</p>
+    <a class="btn btn-outline-warning mb-1" href="/ideas/edit/{{id}}">Edit</a>
+    <a class="btn btn-outline-danger" href="/ideas/delete/{{id}}">Delete</a>
   </div>
 {{else}}
   <h1 class="display-3 text-danger">No Ideas Found, Please be creative!</h1>
