@@ -15,8 +15,11 @@ const bodyParser = require('body-parser');
 // GET THE method-override
 const methodOverride = require('method-override');
 
+// DB Config
+const db = require('./database');
+
 // CONNECT TO MONGOOSE
-mongoose.connect('mongodb://localhost/mediachronicle-dev',{useMongoClient:true
+mongoose.connect(db.mongoURI,{useMongoClient:true
 })
   .then(() => {
     console.log("MongoDB Connected");
@@ -39,7 +42,8 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 
-const port = 5000;
+// as heroku decide which ports to use by itself
+const port = process.env.PORT || 5000;
 
 app.listen(port,function(){
   console.log(`Server started on port ${port}`);
@@ -121,6 +125,16 @@ app.put('/ideas/:id',(req,res)=>{
         res.redirect('/ideas');
       })
   });
+});
+
+// DELETE ideas route
+app.delete('/ideas/delete/:id',(req,res)=>{
+  Idea.remove({
+    _id:req.params.id
+  })
+  .then(()=>{
+    res.redirect('/ideas');
+  })
 });
 
 // GET ideas route

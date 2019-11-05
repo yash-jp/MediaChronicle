@@ -4,7 +4,7 @@
   "description": "The web application to jot down the mdia content, revisit the ideas and alteration of it.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start" : "node app.js"
   },
   "author": "Yash Parekh",
   "license": "MIT",
